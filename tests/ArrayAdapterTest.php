@@ -5,6 +5,7 @@ namespace BenTools\GuzzleHttp\Middleware\Tests;
 use BenTools\GuzzleHttp\Middleware\Storage\Adapter\ArrayAdapter;
 use BenTools\GuzzleHttp\Middleware\Storage\Counter;
 use BenTools\GuzzleHttp\Middleware\Storage\ThrottleStorageInterface;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 class ArrayAdapterTest extends TestCase
@@ -22,10 +23,7 @@ class ArrayAdapterTest extends TestCase
         return $storage;
     }
 
-    /**
-     * @param ThrottleStorageInterface $storage
-     * @depends testCreateCounter
-     */
+    #[Depends('testCreateCounter')]
     public function testRetrieveCounter(ThrottleStorageInterface $storage)
     {
         $counter = $storage->getCounter('foo');
@@ -35,23 +33,17 @@ class ArrayAdapterTest extends TestCase
         return $storage;
     }
 
-    /**
-     * @param ThrottleStorageInterface $storage
-     * @depends testRetrieveCounter
-     */
+    #[Depends('testRetrieveCounter')]
     public function testUpdateCounter(ThrottleStorageInterface $storage)
     {
         $counter = $storage->getCounter('foo');
-        $this->assertInternalType('float', $counter->getRemainingTime());
+        $this->assertIsFloat($counter->getRemainingTime());
         $counter->increment();
         $this->assertEquals(2, $counter->count());
         return $storage;
     }
 
-    /**
-     * @param ThrottleStorageInterface $storage
-     * @depends testUpdateCounter
-     */
+    #[Depends('testUpdateCounter')]
     public function testDeleteCounter(ThrottleStorageInterface $storage)
     {
         $storage->deleteCounter('foo');

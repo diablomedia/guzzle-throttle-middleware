@@ -2,7 +2,7 @@
 
 namespace BenTools\GuzzleHttp\Middleware\Storage;
 
-class Counter implements \Serializable, \JsonSerializable, \Countable
+class Counter implements \JsonSerializable, \Countable
 {
     /**
      * @var bool
@@ -91,7 +91,7 @@ class Counter implements \Serializable, \JsonSerializable, \Countable
     /**
      * @inheritDoc
      */
-    public function serialize()
+    public function __serialize()
     {
         return json_encode($this);
     }
@@ -99,7 +99,7 @@ class Counter implements \Serializable, \JsonSerializable, \Countable
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function __unserialize($serialized)
     {
         $data = json_decode($serialized, true);
         $this->expiresAt = $data['e'];
@@ -111,7 +111,7 @@ class Counter implements \Serializable, \JsonSerializable, \Countable
     /**
      * @inheritDoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'm' => $this->useMicroseconds,

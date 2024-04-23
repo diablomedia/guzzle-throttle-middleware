@@ -9,9 +9,15 @@
       "email": "bpolaszek@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/diablomedia/guzzle-duration-middleware"
+    }
+  ],
   "require": {
-    "php": ">=7.0",
-    "guzzlehttp/guzzle": "^6.0",
+    "php": ">=8.0",
+    "guzzlehttp/guzzle": "^7.0",
     "bentools/psr7-request-matcher": "^1.0",
     "psr/log": "^1.0"
   },
@@ -20,7 +26,7 @@
     "squizlabs/php_codesniffer": "@stable",
     "satooshi/php-coveralls": "@stable",
     "symfony/var-dumper": "^3.3",
-    "bentools/guzzle-duration-middleware": "^1.0",
+    "bentools/guzzle-duration-middleware": "dev-guzzle-7 as 1.0",
     "psr/cache": "^1.0",
     "symfony/cache": "^3.3"
   },

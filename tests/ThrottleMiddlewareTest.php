@@ -23,7 +23,7 @@ class ThrottleMiddlewareTest extends TestCase
      */
     private $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new ArrayAdapter();
     }

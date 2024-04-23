@@ -109,7 +109,7 @@ class ThrottleMiddleware
         \sleep($seconds);
         if (null !== $milliseconds) {
             $milliseconds = ((float) sprintf('0.%s', $milliseconds)) * 1000;
-            usleep($milliseconds * 1000);
+            usleep((int) ($milliseconds * 1000));
         }
     }
 }
