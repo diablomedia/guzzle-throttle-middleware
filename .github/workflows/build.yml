@@ -40,10 +40,14 @@ jobs:
       - name: Install Dependencies
         run: |
           composer update --no-progress --no-suggest --prefer-stable --optimize-autoloader ${{ matrix.composer-args }}
+      - name: PHPStan
+        run: composer phpstan
       - name: Code Style Check
-        run: ./vendor/bin/phpcs --standard=psr2 -n src/
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: true
+        run: composer style-check -- --format=checkstyle | cs2pr
       - name: Test
-        run: ./vendor/bin/phpunit --coverage-clover clover.xml
+        run: composer test-with-coverage
       - name: Upload Coverage
         uses: codecov/codecov-action@v3
         with:

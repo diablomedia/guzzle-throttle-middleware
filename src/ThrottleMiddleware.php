@@ -40,8 +40,8 @@ class ThrottleMiddleware
      */
     public function __construct(ThrottleStorageInterface $storage = null, LoggerInterface $logger = null, string $logLevel = LogLevel::INFO)
     {
-        $this->storage = $storage ?? new ArrayAdapter();
-        $this->logger = $logger ?? new NullLogger();
+        $this->storage  = $storage ?? new ArrayAdapter();
+        $this->logger   = $logger ?? new NullLogger();
         $this->logLevel = $logLevel;
     }
 
@@ -103,10 +103,10 @@ class ThrottleMiddleware
      */
     private function sleep(float $value)
     {
-        $values = explode('.', (string) $value);
-        $seconds = array_shift($values);
+        $values       = explode('.', (string) $value);
+        $seconds      = array_shift($values);
         $milliseconds = array_shift($values);
-        \sleep($seconds);
+        \sleep((int) $seconds);
         if (null !== $milliseconds) {
             $milliseconds = ((float) sprintf('0.%s', $milliseconds)) * 1000;
             usleep((int) ($milliseconds * 1000));

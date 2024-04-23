@@ -22,13 +22,21 @@
     "psr/log": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "@stable",
-    "squizlabs/php_codesniffer": "@stable",
-    "satooshi/php-coveralls": "@stable",
-    "symfony/var-dumper": "^3.3",
     "bentools/guzzle-duration-middleware": "dev-guzzle-7 as 1.0",
+    "friendsofphp/php-cs-fixer": "^3.54",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "@stable",
     "psr/cache": "^1.0",
-    "symfony/cache": "^3.3"
+    "satooshi/php-coveralls": "@stable",
+    "squizlabs/php_codesniffer": "@stable",
+    "symfony/cache": "^3.3",
+    "symfony/var-dumper": "^3.3"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test-with-coverage": "phpunit --coverage-clover=clover.xml",
+    "phpstan": "phpstan analyze -c phpstan.neon --no-progress --ansi",
+    "style-check": "php-cs-fixer fix --dry-run -vv"
   },
   "autoload": {
     "psr-4": {
