@@ -54,12 +54,8 @@ class ThrottleMiddleware
 
     private function processConfiguration(ThrottleConfiguration $configuration): void
     {
-        try {
-            $counter = $this->storage->getCounter($configuration->getStorageKey());
-            if ($counter === null) {
-                $counter = new Counter($configuration->getDuration());
-            }
-        } catch (\TypeError $e) {
+        $counter = $this->storage->getCounter($configuration->getStorageKey());
+        if ($counter === null) {
             $counter = new Counter($configuration->getDuration());
         }
 
