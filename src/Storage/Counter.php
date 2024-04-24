@@ -47,9 +47,6 @@ class Counter implements \JsonSerializable, \Countable
         }
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         if ($this->isExpired()) {
@@ -70,10 +67,7 @@ class Counter implements \JsonSerializable, \Countable
         return $remainingTime;
     }
 
-    /**
-     * @return bool
-     */
-    public function isExpired()
+    public function isExpired(): bool
     {
         return null !== $this->expiresAt && 0.0 === $this->getRemainingTime();
     }
@@ -102,9 +96,6 @@ class Counter implements \JsonSerializable, \Countable
         $this->useMicroseconds = $serialized['m'];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function jsonSerialize(): mixed
     {
         return [
@@ -115,7 +106,10 @@ class Counter implements \JsonSerializable, \Countable
         ];
     }
 
-    public function __debugInfo()
+    /**
+     * @return array{'counter': int, 'microseconds': bool, 'expiresIn': float, 'expiresAt': ?float, 'now': float, 'remaining': float|int, 'expired': bool}
+     */
+    public function __debugInfo(): array
     {
         return [
             'counter'      => $this->counter,
