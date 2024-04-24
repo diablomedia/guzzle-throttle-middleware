@@ -23,16 +23,16 @@ class ThrottleMiddlewareTest extends TestCase
      */
     private $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new ArrayAdapter();
     }
 
     public function testMiddleware()
     {
-        $maxRequests = 1;
+        $maxRequests       = 1;
         $durationInSeconds = 0.5;
-        $client = $this->createConfiguredClient($maxRequests, $durationInSeconds);
+        $client            = $this->createConfiguredClient($maxRequests, $durationInSeconds);
 
         // The counter should not exist
         $response = $client->get('/foo');
@@ -42,7 +42,7 @@ class ThrottleMiddlewareTest extends TestCase
         $response = $client->get('/bar');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
 
-        usleep($durationInSeconds * 1000000);
+        usleep((int) ($durationInSeconds * 1000000));
 
         // The counter should exist and not block
         $this->assertTrue($this->adapter->getCounter('foo')->isExpired());
@@ -52,9 +52,9 @@ class ThrottleMiddlewareTest extends TestCase
 
     public function testMiddlewareWithMultipleRequests()
     {
-        $maxRequests = 3;
+        $maxRequests       = 3;
         $durationInSeconds = 0.5;
-        $client = $this->createConfiguredClient($maxRequests, $durationInSeconds);
+        $client            = $this->createConfiguredClient($maxRequests, $durationInSeconds);
 
         // The counter should not exist: 0/3
         $this->assertFalse($this->adapter->hasCounter('foo'));
@@ -76,7 +76,7 @@ class ThrottleMiddlewareTest extends TestCase
         $response = $client->get('/css');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
 
-        usleep($durationInSeconds * 1000000);
+        usleep((int) ($durationInSeconds * 1000000));
 
         // The counter should have been reset: 0/3
         $response = $client->get('/python');
@@ -146,8 +146,7 @@ class ThrottleMiddlewareTest extends TestCase
      */
     private function createRequestMatcher(callable $requestMatcher)
     {
-        return new class($requestMatcher) implements RequestMatcherInterface
-        {
+        return new class($requestMatcher) implements RequestMatcherInterface {
 
             private $requestMatcher;
 

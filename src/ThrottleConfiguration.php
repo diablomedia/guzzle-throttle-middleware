@@ -37,9 +37,9 @@ class ThrottleConfiguration implements RequestMatcherInterface
     public function __construct(RequestMatcherInterface $requestMatcher, int $maxRequests, float $duration, string $storageKey)
     {
         $this->requestMatcher = $requestMatcher;
-        $this->maxRequests = $maxRequests;
-        $this->duration = $duration;
-        $this->storageKey = $storageKey;
+        $this->maxRequests    = $maxRequests;
+        $this->duration       = $duration;
+        $this->storageKey     = $storageKey;
     }
 
     /**
