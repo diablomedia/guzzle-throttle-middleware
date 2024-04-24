@@ -1,9 +1,7 @@
-[![Latest Stable Version](https://poser.pugx.org/bentools/guzzle-throttle-middleware/v/stable)](https://packagist.org/packages/bentools/guzzle-throttle-middleware)
-[![License](https://poser.pugx.org/bentools/guzzle-throttle-middleware/license)](https://packagist.org/packages/bentools/guzzle-throttle-middleware)
+[![Latest Stable Version](https://poser.pugx.org/diablomedia/guzzle-throttle-middleware/v/stable)](https://packagist.org/packages/diablomedia/guzzle-throttle-middleware)
+[![License](https://poser.pugx.org/diablomedia/guzzle-throttle-middleware/license)](https://packagist.org/packages/diablomedia/guzzle-throttle-middleware)
 [![Build Status](https://img.shields.io/travis/bpolaszek/guzzle-throttle-middleware/master.svg?style=flat-square)](https://travis-ci.org/bpolaszek/guzzle-throttle-middleware)
-[![Coverage Status](https://coveralls.io/repos/github/bpolaszek/guzzle-throttle-middleware/badge.svg?branch=master)](https://coveralls.io/github/bpolaszek/guzzle-throttle-middleware?branch=master)
-[![Quality Score](https://img.shields.io/scrutinizer/g/bpolaszek/guzzle-throttle-middleware.svg?style=flat-square)](https://scrutinizer-ci.com/g/bpolaszek/guzzle-throttle-middleware)
-[![Total Downloads](https://poser.pugx.org/bentools/guzzle-throttle-middleware/downloads)](https://packagist.org/packages/bentools/guzzle-throttle-middleware)
+[![Total Downloads](https://poser.pugx.org/diablomedia/guzzle-throttle-middleware/downloads)](https://packagist.org/packages/diablomedia/guzzle-throttle-middleware)
 
 # Guzzle Throttle Middleware
 

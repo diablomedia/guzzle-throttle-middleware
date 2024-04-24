@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
+    "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
     "guzzlehttp/guzzle": "^7.0",
     "bentools/psr7-request-matcher": "^1.0",
     "psr/log": "^1.0"
@@ -27,8 +27,6 @@
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "@stable",
     "psr/cache": "^1.0",
-    "satooshi/php-coveralls": "@stable",
-    "squizlabs/php_codesniffer": "@stable",
     "symfony/cache": "^3.3",
     "symfony/var-dumper": "^3.3"
   },
