@@ -126,12 +126,12 @@ class ThrottleMiddlewareTest extends TestCase
     {
         return new class($requestMatcher) implements RequestMatcherInterface {
             /**
-             * @var RequestMatcherInterface
+             * @var callable
              */
             private $requestMatcher;
 
             /**
-             * @param RequestMatcherInterface $requestMatcher
+             * @param callable $requestMatcher
              */
             public function __construct($requestMatcher)
             {
