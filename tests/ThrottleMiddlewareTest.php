@@ -40,8 +40,11 @@ class ThrottleMiddlewareTest extends TestCase
 
         usleep((int) ($durationInSeconds * 1000000));
 
+        $counter = $this->adapter->getCounter('foo');
+        $this->assertNotNull($counter);
+
         // The counter should exist and not block
-        $this->assertTrue($this->adapter->getCounter('foo')->isExpired());
+        $this->assertTrue($counter->isExpired());
         $response = $client->get('/baz');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
     }
@@ -57,18 +60,21 @@ class ThrottleMiddlewareTest extends TestCase
         $response = $client->get('/php');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
+        $counter = $this->adapter->getCounter('foo');
+        $this->assertNotNull($counter);
+
         // The counter should exist: 1/3
-        $this->assertEquals(1, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(1, $counter->count());
         $response = $client->get('/javascript');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 2/3
-        $this->assertEquals(2, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(2, $counter->count());
         $response = $client->get('/html');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist and block: 3/3
-        $this->assertEquals(3, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(3, $counter->count());
         $response = $client->get('/css');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
 
@@ -79,17 +85,17 @@ class ThrottleMiddlewareTest extends TestCase
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 1/3
-        $this->assertEquals(1, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(1, $counter->count());
         $response = $client->get('/java');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 2/3
-        $this->assertEquals(2, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(2, $counter->count());
         $response = $client->get('/go');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist and block: 3/3
-        $this->assertEquals(3, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(3, $counter->count());
         $response = $client->get('/ruby');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
     }

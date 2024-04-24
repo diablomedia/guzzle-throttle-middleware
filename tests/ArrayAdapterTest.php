@@ -36,6 +36,7 @@ class ArrayAdapterTest extends TestCase
     public function testUpdateCounter(ThrottleStorageInterface $storage): ThrottleStorageInterface
     {
         $counter = $storage->getCounter('foo');
+        $this->assertNotNull($counter);
         $this->assertIsFloat($counter->getRemainingTime());
         $counter->increment();
         $this->assertEquals(2, $counter->count());
