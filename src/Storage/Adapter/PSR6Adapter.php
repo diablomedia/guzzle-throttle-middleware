@@ -12,10 +12,7 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 class PSR6Adapter implements ThrottleStorageInterface
 {
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cacheItemPool;
+    private CacheItemPoolInterface $cacheItemPool;
 
     /**
      * PSR6Adapter constructor.
@@ -25,17 +22,11 @@ class PSR6Adapter implements ThrottleStorageInterface
         $this->cacheItemPool = $cacheItemPool;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasCounter(string $storageKey): bool
     {
         return $this->cacheItemPool->hasItem($storageKey);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getCounter(string $storageKey): Counter
     {
         $item = $this->cacheItemPool->getItem($storageKey);
@@ -47,10 +38,7 @@ class PSR6Adapter implements ThrottleStorageInterface
         return $counter;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null)
+    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null): void
     {
         $item = $this->cacheItemPool->getItem($storageKey);
         $item->set(serialize($counter));
@@ -60,10 +48,7 @@ class PSR6Adapter implements ThrottleStorageInterface
         $this->cacheItemPool->save($item);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function deleteCounter(string $storageKey)
+    public function deleteCounter(string $storageKey): void
     {
         $this->cacheItemPool->deleteItem($storageKey);
     }

@@ -15,46 +15,31 @@ class ThrottleMiddleware
     /**
      * @var ThrottleConfiguration[]
      */
-    private $configurations = [];
+    private array $configurations = [];
 
-    /**
-     * @var ThrottleStorageInterface
-     */
-    private $storage;
+    private ThrottleStorageInterface $storage;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var string
-     */
-    private $logLevel;
+    private string $logLevel;
 
     /**
      * ThrottleMiddleware constructor.
-     * @param ThrottleStorageInterface $storage
-     * @param LoggerInterface|null     $logger
-     * @param string                   $logLevel
      */
-    public function __construct(ThrottleStorageInterface $storage = null, LoggerInterface $logger = null, string $logLevel = LogLevel::INFO)
+    public function __construct(ThrottleStorageInterface $storage = null, ?LoggerInterface $logger = null, string $logLevel = LogLevel::INFO)
     {
         $this->storage  = $storage ?? new ArrayAdapter();
         $this->logger   = $logger ?? new NullLogger();
         $this->logLevel = $logLevel;
     }
 
-    /**
-     * @param ThrottleConfiguration $configuration
-     */
-    public function registerConfiguration(ThrottleConfiguration $configuration)
+    public function registerConfiguration(ThrottleConfiguration $configuration): void
     {
         $this->configurations[$configuration->getStorageKey()] = $configuration;
     }
 
 
-    public function __invoke(callable $handler)
+    public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use ($handler) {
             foreach ($this->configurations as $configuration) {
@@ -67,10 +52,13 @@ class ThrottleMiddleware
         };
     }
 
-    private function processConfiguration(ThrottleConfiguration $configuration)
+    private function processConfiguration(ThrottleConfiguration $configuration): void
     {
         try {
             $counter = $this->storage->getCounter($configuration->getStorageKey());
+            if ($counter === null) {
+                $counter = new Counter($configuration->getDuration());
+            }
         } catch (\TypeError $e) {
             $counter = new Counter($configuration->getDuration());
         }
@@ -98,10 +86,7 @@ class ThrottleMiddleware
         $this->storage->saveCounter($configuration->getStorageKey(), $counter, $configuration->getDuration());
     }
 
-    /**
-     * @param float $value
-     */
-    private function sleep(float $value)
+    private function sleep(float $value): void
     {
         $values       = explode('.', (string) $value);
         $seconds      = array_shift($values);
