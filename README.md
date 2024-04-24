@@ -2,6 +2,7 @@
 [![License](https://poser.pugx.org/diablomedia/guzzle-throttle-middleware/license)](https://packagist.org/packages/diablomedia/guzzle-throttle-middleware)
 [![Build](https://github.com/diablomedia/guzzle-throttle-middleware/actions/workflows/build.yml/badge.svg)](https://github.com/diablomedia/guzzle-throttle-middleware/actions/workflows/build.yml)
 [![Total Downloads](https://poser.pugx.org/diablomedia/guzzle-throttle-middleware/downloads)](https://packagist.org/packages/diablomedia/guzzle-throttle-middleware)
+[![codecov](https://codecov.io/github/diablomedia/guzzle-throttle-middleware/graph/badge.svg?token=5VKunjIhll)](https://codecov.io/github/diablomedia/guzzle-throttle-middleware)
 
 # Guzzle Throttle Middleware
 
