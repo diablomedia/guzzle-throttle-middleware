@@ -7,37 +7,27 @@ use BenTools\GuzzleHttp\Middleware\Storage\ThrottleStorageInterface;
 
 class ArrayAdapter implements ThrottleStorageInterface
 {
-
-    private $storage = [];
-
     /**
-     * @inheritDoc
+     * @var Counter[]
      */
+    private array $storage = [];
+
     public function hasCounter(string $storageKey): bool
     {
         return isset($this->storage[$storageKey]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getCounter(string $storageKey): Counter
+    public function getCounter(string $storageKey): ?Counter
     {
         return $this->storage[$storageKey] ?? null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null)
+    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null): void
     {
         $this->storage[$storageKey] = $counter;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function deleteCounter(string $storageKey)
+    public function deleteCounter(string $storageKey): void
     {
         unset($this->storage[$storageKey]);
     }

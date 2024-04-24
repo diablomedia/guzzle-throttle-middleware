@@ -17,18 +17,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class ThrottleMiddlewareTest extends TestCase
 {
-
-    /**
-     * @var ArrayAdapter
-     */
-    private $adapter;
+    private ArrayAdapter $adapter;
 
     public function setUp(): void
     {
         $this->adapter = new ArrayAdapter();
     }
 
-    public function testMiddleware()
+    public function testMiddleware(): void
     {
         $maxRequests       = 1;
         $durationInSeconds = 0.5;
@@ -44,13 +40,16 @@ class ThrottleMiddlewareTest extends TestCase
 
         usleep((int) ($durationInSeconds * 1000000));
 
+        $counter = $this->adapter->getCounter('foo');
+        $this->assertNotNull($counter);
+
         // The counter should exist and not block
-        $this->assertTrue($this->adapter->getCounter('foo')->isExpired());
+        $this->assertTrue($counter->isExpired());
         $response = $client->get('/baz');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
     }
 
-    public function testMiddlewareWithMultipleRequests()
+    public function testMiddlewareWithMultipleRequests(): void
     {
         $maxRequests       = 3;
         $durationInSeconds = 0.5;
@@ -61,18 +60,21 @@ class ThrottleMiddlewareTest extends TestCase
         $response = $client->get('/php');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
+        $counter = $this->adapter->getCounter('foo');
+        $this->assertNotNull($counter);
+
         // The counter should exist: 1/3
-        $this->assertEquals(1, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(1, $counter->count());
         $response = $client->get('/javascript');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 2/3
-        $this->assertEquals(2, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(2, $counter->count());
         $response = $client->get('/html');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist and block: 3/3
-        $this->assertEquals(3, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(3, $counter->count());
         $response = $client->get('/css');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
 
@@ -83,46 +85,32 @@ class ThrottleMiddlewareTest extends TestCase
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 1/3
-        $this->assertEquals(1, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(1, $counter->count());
         $response = $client->get('/java');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist: 2/3
-        $this->assertEquals(2, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(2, $counter->count());
         $response = $client->get('/go');
         $this->assertLessThan(0.005, $this->getRequestDuration($response));
 
         // The counter should exist and block: 3/3
-        $this->assertEquals(3, $this->adapter->getCounter('foo')->count());
+        $this->assertEquals(3, $counter->count());
         $response = $client->get('/ruby');
         $this->assertGreaterThan($this->getExpectedDuration($durationInSeconds), $this->getRequestDuration($response));
     }
 
-    /**
-     * @param float $durationInSeconds
-     * @return float
-     */
-    private function getExpectedDuration(float $durationInSeconds)
+    private function getExpectedDuration(float $durationInSeconds): float
     {
         return $durationInSeconds - 0.3; // We have to minus 0.03 because sometimes PHP is a little faster :)
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @return float
-     */
-    private function getRequestDuration(ResponseInterface $response)
+    private function getRequestDuration(ResponseInterface $response): float
     {
         return (float) $response->getHeaderLine('X-Request-Duration');
     }
 
-    /**
-     * @param int    $maxRequests
-     * @param float  $duration
-     * @param string $storageKey
-     * @return Client
-     */
-    private function createConfiguredClient(int $maxRequests, float $duration, string $storageKey = 'foo')
+    private function createConfiguredClient(int $maxRequests, float $duration, string $storageKey = 'foo'): Client
     {
         $stack = HandlerStack::create(function (RequestInterface $request, array $options) {
             return new FulfilledPromise(new Response());
@@ -140,16 +128,17 @@ class ThrottleMiddlewareTest extends TestCase
         return $client;
     }
 
-    /**
-     * @param callable $requestMatcher
-     * @return RequestMatcherInterface
-     */
-    private function createRequestMatcher(callable $requestMatcher)
+    private function createRequestMatcher(callable $requestMatcher): RequestMatcherInterface
     {
         return new class($requestMatcher) implements RequestMatcherInterface {
-
+            /**
+             * @var callable
+             */
             private $requestMatcher;
 
+            /**
+             * @param callable $requestMatcher
+             */
             public function __construct($requestMatcher)
             {
                 $this->requestMatcher = $requestMatcher;

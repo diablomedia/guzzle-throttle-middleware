@@ -7,32 +7,16 @@ use Psr\Http\Message\RequestInterface;
 
 class ThrottleConfiguration implements RequestMatcherInterface
 {
-    /**
-     * @var RequestMatcherInterface
-     */
-    private $requestMatcher;
+    private RequestMatcherInterface $requestMatcher;
 
-    /**
-     * @var int
-     */
-    private $maxRequests;
+    private int $maxRequests;
 
-    /**
-     * @var float
-     */
-    private $duration;
+    private float $duration;
 
-    /**
-     * @var string
-     */
-    private $storageKey;
+    private string $storageKey;
 
     /**
      * ThrottleConfiguration constructor.
-     * @param RequestMatcherInterface $requestMatcher
-     * @param int                     $maxRequests
-     * @param float                     $duration
-     * @param string                  $storageKey
      */
     public function __construct(RequestMatcherInterface $requestMatcher, int $maxRequests, float $duration, string $storageKey)
     {
@@ -42,33 +26,21 @@ class ThrottleConfiguration implements RequestMatcherInterface
         $this->storageKey     = $storageKey;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function matchRequest(RequestInterface $request)
     {
         return $this->requestMatcher->matchRequest($request);
     }
 
-    /**
-     * @return int
-     */
     public function getMaxRequests(): int
     {
         return $this->maxRequests;
     }
 
-    /**
-     * @return float
-     */
     public function getDuration(): float
     {
         return $this->duration;
     }
 
-    /**
-     * @return string
-     */
     public function getStorageKey(): string
     {
         return $this->storageKey;

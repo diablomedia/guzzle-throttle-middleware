@@ -22,12 +22,15 @@ class Counter implements \JsonSerializable, \Countable
         $this->reset();
     }
 
+    /**
+     * @return float|int
+     */
     private function now()
     {
         return $this->useMicroseconds ? microtime(true) : time();
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->counter   = 0;
         $this->expiresAt = null;
@@ -36,7 +39,7 @@ class Counter implements \JsonSerializable, \Countable
     /**
      * Increment counter.
      */
-    public function increment()
+    public function increment(): void
     {
         $this->counter++;
         if (1 === $this->counter) {
@@ -44,9 +47,6 @@ class Counter implements \JsonSerializable, \Countable
         }
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         if ($this->isExpired()) {
@@ -67,15 +67,15 @@ class Counter implements \JsonSerializable, \Countable
         return $remainingTime;
     }
 
-    /**
-     * @return bool
-     */
-    public function isExpired()
+    public function isExpired(): bool
     {
         return null !== $this->expiresAt && 0.0 === $this->getRemainingTime();
     }
 
-    public function __serialize()
+    /**
+     * @return array{'e': ?float, 'm': bool, 'i': float, 'n': int} $serialized
+     */
+    public function __serialize(): array
     {
         return [
             'm'         => $this->useMicroseconds,
@@ -85,7 +85,10 @@ class Counter implements \JsonSerializable, \Countable
         ];
     }
 
-    public function __unserialize(array $serialized)
+    /**
+     * @param array{'e': ?float, 'm': bool, 'i': float, 'n': int} $serialized
+     */
+    public function __unserialize(array $serialized): void
     {
         $this->expiresAt       = $serialized['e'];
         $this->expiresIn       = $serialized['i'];
@@ -93,9 +96,6 @@ class Counter implements \JsonSerializable, \Countable
         $this->useMicroseconds = $serialized['m'];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function jsonSerialize(): mixed
     {
         return [
@@ -106,7 +106,10 @@ class Counter implements \JsonSerializable, \Countable
         ];
     }
 
-    public function __debugInfo()
+    /**
+     * @return array{'counter': int, 'microseconds': bool, 'expiresIn': float, 'expiresAt': ?float, 'now': float, 'remaining': float|int, 'expired': bool}
+     */
+    public function __debugInfo(): array
     {
         return [
             'counter'      => $this->counter,

@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayAdapterTest extends TestCase
 {
-
-    public function testCreateCounter()
+    public function testCreateCounter(): ThrottleStorageInterface
     {
         $storage = new ArrayAdapter();
         $this->assertFalse($storage->hasCounter('foo'));
@@ -24,7 +23,7 @@ class ArrayAdapterTest extends TestCase
     }
 
     #[Depends('testCreateCounter')]
-    public function testRetrieveCounter(ThrottleStorageInterface $storage)
+    public function testRetrieveCounter(ThrottleStorageInterface $storage): ThrottleStorageInterface
     {
         $counter = $storage->getCounter('foo');
         $this->assertInstanceOf(Counter::class, $counter);
@@ -34,9 +33,10 @@ class ArrayAdapterTest extends TestCase
     }
 
     #[Depends('testRetrieveCounter')]
-    public function testUpdateCounter(ThrottleStorageInterface $storage)
+    public function testUpdateCounter(ThrottleStorageInterface $storage): ThrottleStorageInterface
     {
         $counter = $storage->getCounter('foo');
+        $this->assertNotNull($counter);
         $this->assertIsFloat($counter->getRemainingTime());
         $counter->increment();
         $this->assertEquals(2, $counter->count());
@@ -44,7 +44,7 @@ class ArrayAdapterTest extends TestCase
     }
 
     #[Depends('testUpdateCounter')]
-    public function testDeleteCounter(ThrottleStorageInterface $storage)
+    public function testDeleteCounter(ThrottleStorageInterface $storage): void
     {
         $storage->deleteCounter('foo');
         $this->assertFalse($storage->hasCounter('foo'));
