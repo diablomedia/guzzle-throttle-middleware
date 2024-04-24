@@ -25,7 +25,7 @@
     "bentools/guzzle-duration-middleware": "dev-guzzle-7 as 1.0",
     "friendsofphp/php-cs-fixer": "^3.54",
     "phpstan/phpstan": "^1.10",
-    "phpunit/phpunit": "@stable",
+    "phpunit/phpunit": "^10.5.0",
     "psr/cache": "^1.0",
     "symfony/cache": "^3.3",
     "symfony/var-dumper": "^3.3"
