@@ -19,7 +19,7 @@
     "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
     "guzzlehttp/guzzle": "^7.0",
     "bentools/psr7-request-matcher": "^1.0",
-    "psr/log": "^1.0"
+    "psr/log": "^1.0 || ^2.0 || ^3.0"
   },
   "require-dev": {
     "bentools/guzzle-duration-middleware": "dev-guzzle-7 as 1.0",

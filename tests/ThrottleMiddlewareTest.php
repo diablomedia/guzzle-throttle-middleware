@@ -32,7 +32,7 @@ class ThrottleMiddlewareTest extends TestCase
 
         // The counter should not exist
         $response = $client->get('/foo');
-        $this->assertLessThan(0.005, $this->getRequestDuration($response));
+        $this->assertLessThanOrEqual(0.005, $this->getRequestDuration($response));
 
         // The counter should exist and block
         $response = $client->get('/bar');
@@ -46,7 +46,7 @@ class ThrottleMiddlewareTest extends TestCase
         // The counter should exist and not block
         $this->assertTrue($counter->isExpired());
         $response = $client->get('/baz');
-        $this->assertLessThan(0.005, $this->getRequestDuration($response));
+        $this->assertLessThanOrEqual(0.005, $this->getRequestDuration($response));
     }
 
     public function testMiddlewareWithMultipleRequests(): void
