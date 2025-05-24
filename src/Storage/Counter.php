@@ -10,6 +10,9 @@ class Counter implements \JsonSerializable, \Countable
 
     private ?float $expiresAt;
 
+    /**
+     * @var int<0, max>
+     */
     private int $counter;
 
     /**
@@ -86,7 +89,7 @@ class Counter implements \JsonSerializable, \Countable
     }
 
     /**
-     * @param array{'e': ?float, 'm': bool, 'i': float, 'n': int} $serialized
+     * @param array{'e': ?float, 'm': bool, 'i': float, 'n': int<0, max>} $serialized
      */
     public function __unserialize(array $serialized): void
     {
