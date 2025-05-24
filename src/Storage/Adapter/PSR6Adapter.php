@@ -47,7 +47,7 @@ class PSR6Adapter implements ThrottleStorageInterface
         return $counter;
     }
 
-    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null): void
+    public function saveCounter(string $storageKey, Counter $counter, ?float $ttl = null): void
     {
         $item = $this->cacheItemPool->getItem($storageKey);
         $item->set(serialize($counter));

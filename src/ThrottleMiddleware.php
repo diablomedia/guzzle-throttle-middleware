@@ -26,7 +26,7 @@ class ThrottleMiddleware
     /**
      * ThrottleMiddleware constructor.
      */
-    public function __construct(ThrottleStorageInterface $storage = null, ?LoggerInterface $logger = null, string $logLevel = LogLevel::INFO)
+    public function __construct(?ThrottleStorageInterface $storage = null, ?LoggerInterface $logger = null, string $logLevel = LogLevel::INFO)
     {
         $this->storage  = $storage ?? new ArrayAdapter();
         $this->logger   = $logger ?? new NullLogger();

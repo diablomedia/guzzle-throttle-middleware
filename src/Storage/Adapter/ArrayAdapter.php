@@ -22,7 +22,7 @@ class ArrayAdapter implements ThrottleStorageInterface
         return $this->storage[$storageKey] ?? null;
     }
 
-    public function saveCounter(string $storageKey, Counter $counter, float $ttl = null): void
+    public function saveCounter(string $storageKey, Counter $counter, ?float $ttl = null): void
     {
         $this->storage[$storageKey] = $counter;
     }
