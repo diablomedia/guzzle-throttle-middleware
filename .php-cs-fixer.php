@@ -10,8 +10,8 @@ $config = new PhpCsFixer\Config();
 return $config->setRiskyAllowed(true)
     ->setRules(array(
         '@PSR2'                      => true,
-        '@PHPUnit60Migration:risky'  => true,
-        '@PHPUnit100Migration:risky' => true,
+        '@PHPUnit6x0Migration:risky'  => true,
+        '@PHPUnit10x0Migration:risky' => true,
         'binary_operator_spaces'     => array('operators' => array('=' => 'align', '=>' => 'align')),
         'single_quote'               => true,
         'array_syntax'               => array('syntax' => 'short'),
