@@ -23,12 +23,12 @@
   },
   "require-dev": {
     "bentools/guzzle-duration-middleware": "dev-guzzle-7 as 1.0",
-    "friendsofphp/php-cs-fixer": "^3.75.0",
+    "friendsofphp/php-cs-fixer": "^3.95.23",
     "phpstan/phpstan": "^2.1.17",
     "phpunit/phpunit": "^10.5.0",
     "psr/cache": "^1.0",
-    "symfony/cache": "^3.3 || ^4.0 || ^5.0",
-    "symfony/var-dumper": "^3.3 || ^4.0 || ^5.0 || ^6.0"
+    "symfony/cache": "^5.0 || ^6.0 || ^7.0",
+    "symfony/var-dumper": "^5.0 || ^6.0 || ^7.0"
   },
   "scripts": {
     "test": "phpunit",
